@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MessageService } from './message.service';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +11,10 @@ export class AppComponent {
   message = '';
   chats = ['Hi', 'Hello', 'How are you?', 'I am fine','What about you?', 'I am good'];
 
+  constructor(message: MessageService) {
+
+  }
+  
   addChat() {
     if(this.message.length == 0)
     {
