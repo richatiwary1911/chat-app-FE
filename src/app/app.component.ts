@@ -4,15 +4,22 @@ import { MessageService } from './message.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Chit Chat';
+  title = 'GapShap';
   message = '';
-  chats = ['Hi', 'Hello', 'How are you?', 'I am fine','What about you?', 'I am good'];
+  chats = [];
+  username;
 
-  constructor(message: MessageService) {
-
+  constructor(private messageService: MessageService) {
+    this.messageService.getChats().subscribe((data) => {
+      this.chats = data;
+      window.setInterval(() => {
+        const elem = document.getElementById('scrolldiv');
+        elem.scrollTop = elem.scrollHeight;
+      }, 500)
+    })
   }
   
   addChat() {
@@ -20,12 +27,12 @@ export class AppComponent {
     {
       return;
     }
-    this.chats.push(this.message);
+    this.messageService.addChat(this.message);
     this.message = '';
+  }
 
-    window.setInterval(() => {
-      const elem = document.getElementById('scrolldiv');
-      elem.scrollTop = elem.scrollHeight;
-    }, 500)
+  addUser(user) {
+    this.messageService.addUser(user);
+    this.username = user;
   }
 }
